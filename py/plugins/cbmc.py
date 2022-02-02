@@ -56,8 +56,8 @@ class Plugin:
     def handle_args(self, parser, args, props):
         if not self.enabled:
             return
-
         # make sure cbmc and its helper scripts are installed in chroot
+        props.add_repos += ["https://download.copr.fedorainfracloud.org/results/@aufover/cbmc/fedora-$releasever-$basearch/"]
         props.install_pkgs += ["cbmc", "cbmc-utils"]
 
         # record version of the installed "cbmc" tool
@@ -92,7 +92,7 @@ class Plugin:
                 "/usr/bin/csexec-cbmc",
                 "-t", "%d" % args.cbmc_timeout,
                 "-l", CBMC_CAPTURE_DIR,
-                "-c","--unwind 1 --json-ui --verbosity 4 --pointer-overflow-check --memory-leak-check"]
+                "-c","--unwind 1 --json-ui --verbosity 4 --memory-leak-check"]
 
         # append custom args if specified
         # FIXME: what about single arguments with whitespaces?
